@@ -1,5 +1,6 @@
 package com.jfinal.plugin.activerecord;
 
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -10,8 +11,9 @@ import java.lang.reflect.Proxy;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 
+@Slf4j
 public class SqlReporter implements InvocationHandler {
-    private static final Logger log = LoggerFactory.getLogger(SqlReporter.class);
+
     private Connection conn;
     private static boolean logOn = false;
 
@@ -33,11 +35,10 @@ public class SqlReporter implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         try {
             if (method.getName().equals("prepareStatement")) {
-                if (SqlLog.isDisableLog()) {
-                    return new SqlParamLogProxy(((PreparedStatement) method.invoke(conn, args))).prepareStatement();
+                if(!SqlLog.isDisableLog()){
+                    String info = "Sql: " + args[0];
+                    log.debug(info);
                 }
-                String info = "Sql:\n" + args[0];
-                log.debug(info);
                 return new SqlParamLogProxy(((PreparedStatement) method.invoke(conn, args))).prepareStatement();
             }
             return method.invoke(conn, args);
@@ -47,3 +48,4 @@ public class SqlReporter implements InvocationHandler {
         }
     }
 }
+
