@@ -32,7 +32,7 @@ public class ActiveRecordPluginConfig {
     @Value("${package.path}")
     private String packagePath;
 
-    @Value("${package.model.path:}")
+    @Value("${package.model.path}")
     private String modelPath;
 
     /**
@@ -53,7 +53,7 @@ public class ActiveRecordPluginConfig {
         arp.setShowSql(true);
         arp.setDevMode(true);
 
-        log.info("自动初始化");
+        log.info("=====自动初始化=======");
         // 所有映射在 MappingKit 中自动化搞定
         if (StrKit.isBlank(modelPath)){
             log.info("未配置package.model.path，将不进行自动加载实体类映射");
