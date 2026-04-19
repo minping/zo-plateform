@@ -1,6 +1,5 @@
 package com.jfinal.kit;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ReUtil;
 import com.jfinal.fun.Medium;
@@ -16,6 +15,8 @@ import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Set;
 
 public class AutoSqlMappingKit {
@@ -36,7 +37,7 @@ public class AutoSqlMappingKit {
     }
 
     public static void auto(ActiveRecordPlugin arp, String... packgeName) {
-        auto(arp, CollectionUtil.newHashSet(packgeName));
+        auto(arp, new HashSet<>(Arrays.asList(packgeName)));
     }
 
     /**
