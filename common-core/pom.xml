@@ -1,0 +1,16 @@
+<!-- common-core/pom.xml -->
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.zode</groupId>
+        <artifactId>mp-sdk</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    <artifactId>common-core</artifactId>
+    <packaging>jar</packaging> <!-- 打包成jar -->
+
+    <dependencies>
+        <!-- 添加你的通用模块需要的其他依赖 -->
+    </dependencies>
+</project>

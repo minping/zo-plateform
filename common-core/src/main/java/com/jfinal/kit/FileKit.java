@@ -1,6 +1,5 @@
 package com.jfinal.kit;
 
-import cn.hutool.core.io.FileUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -323,14 +322,4 @@ public class FileKit {
             }
         }
     }
-
-    public static File copy(File src, File dest, Boolean isOverride) {
-        return FileUtil.copy(src, dest, isOverride);
-    }
-
-
-    public static Boolean delete(String destPath) {
-        return FileUtil.del(destPath);
-    }
-
 }
