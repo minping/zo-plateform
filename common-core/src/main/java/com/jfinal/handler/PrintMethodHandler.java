@@ -1,6 +1,6 @@
 package com.jfinal.handler;
 
-import com.jfinal.kit.StrKit;
+import com.common.util.StrKit;
 import org.apache.logging.log4j.ThreadContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

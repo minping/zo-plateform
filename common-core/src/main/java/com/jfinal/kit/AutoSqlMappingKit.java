@@ -2,6 +2,7 @@ package com.jfinal.kit;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ReUtil;
+import com.common.util.StrKit;
 import com.jfinal.fun.Medium;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.template.source.FileSource;
@@ -50,7 +51,7 @@ public class AutoSqlMappingKit {
         ScanKit.search(packageName, o -> true, new Medium<String, ISource>() {
             @Override
             public boolean test(String s) {
-                return StringKit.endsWithIgnoreCase(s, ".sql");
+                return StrKit.endsWithIgnoreCase(s, ".sql");
             }
 
             @Override

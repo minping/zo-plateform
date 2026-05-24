@@ -1,4 +1,4 @@
-package com.jfinal.kit;
+package com.common.util;
 
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
@@ -10,10 +10,10 @@ import java.util.Base64;
 import java.util.List;
 import java.util.UUID;
 
-public class StringKit {
+public class StrKit {
     public static final String UTF8 = "UTF-8";
 
-    public StringKit() {
+    public StrKit() {
     }
 
     public static String uuid() {
@@ -215,11 +215,6 @@ public class StringKit {
         return sb.toString();
     }
 
-    public static boolean slowEquals(String a, String b) {
-        byte[] aBytes = a != null ? a.getBytes() : null;
-        byte[] bBytes = b != null ? b.getBytes() : null;
-        return HashKit.slowEquals(aBytes, bBytes);
-    }
 
     public static boolean equals(String a, String b) {
         return a == null ? b == null : a.equals(b);
@@ -313,6 +308,7 @@ public class StringKit {
 
         return content;
     }
+
 
     public static boolean isNumber(String sStr) {
         try {
