@@ -2,13 +2,10 @@ package com.jfinal.config;
 
 
 import com.jfinal.kit.PathKit;
-import com.jfinal.kit.Prop;
-import com.jfinal.kit.PropKit;
-import com.jfinal.kit.StrKit;
+import com.common.util.StrKit;
 import com.jfinal.plugin.activerecord.dialect.MysqlDialect;
 import com.jfinal.plugin.activerecord.generator.Generator;
 import com.jfinal.plugin.druid.DruidPlugin;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.sql.DataSource;
 

@@ -1,9 +1,7 @@
 package com.jfinal.config;
 
 import com.jfinal.kit.AutoSqlMappingKit;
-import com.jfinal.kit.Prop;
-import com.jfinal.kit.PropKit;
-import com.jfinal.kit.StrKit;
+import com.common.util.StrKit;
 import com.jfinal.model._MappingKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
