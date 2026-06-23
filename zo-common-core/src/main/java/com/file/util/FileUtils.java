@@ -32,6 +32,8 @@ public class FileUtils {
 
     @Autowired
     FileTypeDetector  fileTypeDetector;
+    @Autowired
+    SecurityUtils securityUtils;
 
     private static final DateTimeFormatter DATE_FORMATTER =
             DateTimeFormatter.ofPattern("yyyyMMdd");
@@ -57,7 +59,7 @@ public class FileUtils {
 
         // 检查文件名安全性
         String originalFilename = file.getOriginalFilename();
-        if (originalFilename != null && SecurityUtils.containsPathTraversal(originalFilename)) {
+        if (originalFilename != null && securityUtils.containsPathTraversal(originalFilename)) {
             throw new IllegalArgumentException("文件名包含非法字符");
         }
     }
