@@ -1,5 +1,6 @@
 package com.file.service.impl;
 
+import com.common.util.DateKit;
 import com.common.util.Result;
 import com.common.util.StrKit;
 import com.file.service.FileStorageService;
@@ -54,7 +55,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             String originalFilename = file.getOriginalFilename();
             String fileExtension =  fileUtils.getFileExtension(originalFilename);
             String storageName =  fileUtils.generateStorageName(fileExtension);
-            Path filePath = Paths.get(baseDir, storageName);
+            Path filePath = Paths.get(baseDir, DateKit.formatDate2Str(new Date(),DateKit.YYYYMMDD), storageName);
 
             // 确保目录存在
             Files.createDirectories(filePath.getParent());
@@ -75,7 +76,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             zoFile.set("file_extension",fileExtension);
             zoFile.set("md5_hash",md5Hash);
             Db.save("zo_file",zoFile);
-            return Result.me().success().setData(file);
+            return Result.me().success().setData(zoFile);
         }catch (Exception e){
             return Result.me().error().setMessage("上传文件失败");
         }
@@ -83,7 +84,7 @@ public class FileStorageServiceImpl implements FileStorageService {
 
     @Override
     public Resource downloadFile(String fileId, HttpServletResponse response) throws  IOException{
-        Record file = Db.findById("zo_file", "original_name", fileId);
+        Record file = Db.findById("zo_file", "zo_file_id", fileId);
 
         // 更新下载次数
         Record update = new Record();

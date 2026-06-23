@@ -1,5 +1,7 @@
 package com.file.util;
 
+import org.springframework.stereotype.Component;
+
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.regex.Matcher;
@@ -10,10 +12,11 @@ import java.util.regex.Pattern;
  * @date 2026/4/16
  * @purpose
  */
+@Component
 public class SecurityUtils {
 
     // 定义路径遍历模式的正则表达式[3](@ref)[6](@ref)[7](@ref)
-    private static final Pattern PATH_TRAVERSAL_PATTERN = Pattern.compile(
+    private final Pattern PATH_TRAVERSAL_PATTERN = Pattern.compile(
             // 经典上级目录模式 (e.g., ../, ..\)
             "(?i)(?:^|[\\\\/]|\\.\\.)[\\\\/]?\\.\\.[\\\\/]|" +
                     // URL编码的路径遍历 (e.g., %2e%2e%2f, %2e%2e/)
@@ -21,9 +24,9 @@ public class SecurityUtils {
                     // 绝对路径模式 (e.g., /etc/passwd, C:\boot.ini)
                     "^(?:[A-Za-z]:)?[\\\\/](?:[^\\\\/]+[\\\\/])*|" +
                     // 空字节注入 (常用于绕过检查)
-                    "\\0|" +
+                    "\\x00|" +
                     // 替代分隔符和编码绕过
-                    "(?:(?:\\\\|/|%2f|%2F|%5c|%5C)\\.\\.(?:\\\\|/|%2f|%2F|%5c|%5C))"
+                    "(?:\\\\|/|%2f|%2F|%5c|%5C)\\.\\.(?:\\\\|/|%2f|%2F|%5c|%5C)"
     );
 
     /**
@@ -31,7 +34,7 @@ public class SecurityUtils {
      * @param input 待检测的输入字符串
      * @return 如果检测到路径遍历模式返回 true，否则返回 false
      */
-    public static boolean containsPathTraversal(String input) {
+    public boolean containsPathTraversal(String input) {
         if (input == null || input.isEmpty()) {
             return false;
         }
@@ -62,7 +65,7 @@ public class SecurityUtils {
      * @param input 输入字符串
      * @return 完全解码后的字符串
      */
-    private static String urlDecodeRecursively(String input) throws Exception {
+    private String urlDecodeRecursively(String input) throws Exception {
         String previous;
         String current = input;
 
@@ -79,7 +82,7 @@ public class SecurityUtils {
      * @param input 输入字符串
      * @return 如果包含URL编码返回 true
      */
-    private static boolean containsUrlEncoded(String input) {
+    private boolean containsUrlEncoded(String input) {
         return Pattern.compile("%[0-9A-Fa-f]{2}").matcher(input).find();
     }
 
@@ -89,7 +92,7 @@ public class SecurityUtils {
      * @param userInput 用户输入的文件路径
      * @return 规范化的安全路径，如果路径不安全返回 null
      */
-    public static String safePathResolver(String baseDir, String userInput) {
+    public String safePathResolver(String baseDir, String userInput) {
         if (containsPathTraversal(userInput)) {
             return null;
         }
