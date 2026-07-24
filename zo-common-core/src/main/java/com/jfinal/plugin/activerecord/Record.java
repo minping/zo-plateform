@@ -17,9 +17,15 @@
 package com.jfinal.plugin.activerecord;
 
 import com.common.json.kit.JSONKit;
+import com.common.util.DateUtil;
+import com.common.util.StrKit;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -32,11 +38,12 @@ public class Record implements Serializable {
 
     private static final long serialVersionUID = 905784513600884082L;
 
-    private Map<String, Object> columns;	// = getColumnsMap();	// getConfig().containerFactory.getColumnsMap();	// new HashMap<String, Object>();
+    private Map<String, Object> columns;    // = getColumnsMap();	// getConfig().containerFactory.getColumnsMap();	// new HashMap<String, Object>();
 
     /**
      * Set the containerFactory by configName.
      * Only the containerFactory of the config used by Record for getColumnsMap()
+     *
      * @param configName the config name
      */
     public Record setContainerFactoryByConfigName(String configName) {
@@ -49,7 +56,7 @@ public class Record implements Serializable {
     }
 
     // 用于 RecordBuilder 中注入 Map。也可以通过调用 CPI.setColumnsMap(record, columns) 实现
-    void setColumnsMap(Map<String, Object> columns) {
+    public void setColumnsMap(Map<String, Object> columns) {
         this.columns = columns;
     }
 
@@ -80,8 +87,10 @@ public class Record implements Serializable {
 
     /**
      * Set columns value with map.
+     *
      * @param columns the columns map
      */
+    @JsonProperty("columns")
     public Record setColumns(Map<String, Object> columns) {
         this.getColumns().putAll(columns);
         return this;
@@ -89,15 +98,19 @@ public class Record implements Serializable {
 
     /**
      * Set columns value with Record.
+     *
      * @param record the Record object
      */
+
     public Record setColumns(Record record) {
         getColumns().putAll(record.getColumns());
         return this;
     }
 
+
     /**
      * Set columns value with Model object.
+     *
      * @param model the Model object
      */
     public Record setColumns(Model<?> model) {
@@ -107,6 +120,7 @@ public class Record implements Serializable {
 
     /**
      * Remove attribute of this record.
+     *
      * @param column the column name of the record
      */
     public Record remove(String column) {
@@ -116,6 +130,7 @@ public class Record implements Serializable {
 
     /**
      * Remove columns of this record.
+     *
      * @param columns the column names of the record
      */
     public Record remove(String... columns) {
@@ -129,7 +144,7 @@ public class Record implements Serializable {
      * Remove columns if it is null.
      */
     public Record removeNullValueColumns() {
-        for (java.util.Iterator<Entry<String, Object>> it = getColumns().entrySet().iterator(); it.hasNext();) {
+        for (java.util.Iterator<Entry<String, Object>> it = getColumns().entrySet().iterator(); it.hasNext(); ) {
             Entry<String, Object> e = it.next();
             if (e.getValue() == null) {
                 it.remove();
@@ -140,34 +155,34 @@ public class Record implements Serializable {
 
     /**
      * Keep columns of this record and remove other columns.
+     *
      * @param columns the column names of the record
      */
     public Record keep(String... columns) {
         if (columns != null && columns.length > 0) {
-            Map<String, Object> newColumns = new HashMap<String, Object>(columns.length);	// getConfig().containerFactory.getColumnsMap();
+            Map<String, Object> newColumns = new HashMap<String, Object>(columns.length);    // getConfig().containerFactory.getColumnsMap();
             for (String c : columns)
-                if (this.getColumns().containsKey(c))	// prevent put null value to the newColumns
+                if (this.getColumns().containsKey(c))    // prevent put null value to the newColumns
                     newColumns.put(c, this.getColumns().get(c));
 
             this.getColumns().clear();
             this.getColumns().putAll(newColumns);
-        }
-        else
+        } else
             this.getColumns().clear();
         return this;
     }
 
     /**
      * Keep column of this record and remove other columns.
+     *
      * @param column the column names of the record
      */
     public Record keep(String column) {
-        if (getColumns().containsKey(column)) {	// prevent put null value to the newColumns
+        if (getColumns().containsKey(column)) {    // prevent put null value to the newColumns
             Object keepIt = getColumns().get(column);
             getColumns().clear();
             getColumns().put(column, keepIt);
-        }
-        else
+        } else
             getColumns().clear();
         return this;
     }
@@ -182,8 +197,9 @@ public class Record implements Serializable {
 
     /**
      * Set column to record.
+     *
      * @param column the column name
-     * @param value the value of the column
+     * @param value  the value of the column
      */
     public Record set(String column, Object value) {
         getColumns().put(column, value);
@@ -195,7 +211,7 @@ public class Record implements Serializable {
      */
     @SuppressWarnings("unchecked")
     public <T> T get(String column) {
-        return (T)getColumns().get(column);
+        return (T) getColumns().get(column);
     }
 
     /**
@@ -204,25 +220,37 @@ public class Record implements Serializable {
     @SuppressWarnings("unchecked")
     public <T> T get(String column, Object defaultValue) {
         Object result = getColumns().get(column);
-        return (T)(result != null ? result : defaultValue);
-    }
-
-    public Object getObject(String column) {
-        return getColumns().get(column);
-    }
-
-    public Object getObject(String column, Object defaultValue) {
-        Object result = getColumns().get(column);
-        return result != null ? result : defaultValue;
+        return (T) (result != null ? result : defaultValue);
     }
 
     /**
      * Get column of mysql type: varchar, char, enum, set, text, tinytext, mediumtext, longtext
      */
     public String getStr(String column) {
-        // return (String)getColumns().get(column);
         Object s = getColumns().get(column);
+        if (s instanceof Timestamp) {
+            return DateUtil.formatDate2Str(DateUtil.formatStr2Date(s.toString(), DateUtil.DATETIME_PATTERN), DateUtil.DATETIME_PATTERN);
+        } else if (s instanceof Time) {
+            return DateUtil.formatDate2Str((Date) s, "HH:mm:ss");
+        } else if (s instanceof Date) {
+            return DateUtil.formatDate2Str((Date) s, DateUtil.DATETIME_PATTERN);
+        }
         return s != null ? s.toString() : null;
+    }
+
+    /**
+     * Get column of mysql type: varchar, char, enum, set, text, tinytext, mediumtext, longtext
+     */
+    public String getStrOrDefault(String column,String defaultValue) {
+        Object s = getColumns().get(column);
+        if (s instanceof Timestamp) {
+            return DateUtil.formatDate2Str(DateUtil.formatStr2Date(s.toString(), DateUtil.DATETIME_PATTERN), DateUtil.DATETIME_PATTERN);
+        } else if (s instanceof Time) {
+            return DateUtil.formatDate2Str((Date) s, "HH:mm:ss");
+        } else if (s instanceof Date) {
+            return DateUtil.formatDate2Str((Date) s, DateUtil.DATETIME_PATTERN);
+        }
+        return s != null ? s.toString() : defaultValue;
     }
 
     /**
@@ -245,28 +273,28 @@ public class Record implements Serializable {
      * Get column of mysql type: unsigned bigint
      */
     public java.math.BigInteger getBigInteger(String column) {
-        return (java.math.BigInteger)getColumns().get(column);
+        return (java.math.BigInteger) getColumns().get(column);
     }
 
     /**
      * Get column of mysql type: date, year
      */
     public java.util.Date getDate(String column) {
-        return (java.util.Date)getColumns().get(column);
+        return (java.util.Date) getColumns().get(column);
     }
 
     /**
      * Get column of mysql type: time
      */
     public java.sql.Time getTime(String column) {
-        return (java.sql.Time)getColumns().get(column);
+        return (java.sql.Time) getColumns().get(column);
     }
 
     /**
      * Get column of mysql type: timestamp, datetime
      */
     public java.sql.Timestamp getTimestamp(String column) {
-        return (java.sql.Timestamp)getColumns().get(column);
+        return (java.sql.Timestamp) getColumns().get(column);
     }
 
     /**
@@ -299,21 +327,21 @@ public class Record implements Serializable {
      * Get column of mysql type: bit, tinyint(1)
      */
     public Boolean getBoolean(String column) {
-        return (Boolean)getColumns().get(column);
+        return (Boolean) getColumns().get(column);
     }
 
     /**
      * Get column of mysql type: decimal, numeric
      */
-    public BigDecimal getBigDecimal(String column) {
-        Object n = getColumns().get(column);
-        if (n instanceof BigDecimal) {
-            return (BigDecimal)n;
-        } else if (n != null) {
-            return new BigDecimal(n.toString());
-        } else {
+    public java.math.BigDecimal getBigDecimal(String column) {
+        Object o = getColumns().get(column);
+        if (o == null) {
             return null;
         }
+        if (o instanceof BigDecimal) {
+            return (BigDecimal) o;
+        }
+        return StrKit.isNotBlank(o.toString()) ? new BigDecimal(o.toString()) : null;
     }
 
     /**
@@ -321,14 +349,14 @@ public class Record implements Serializable {
      * I have not finished the test.
      */
     public byte[] getBytes(String column) {
-        return (byte[])getColumns().get(column);
+        return (byte[]) getColumns().get(column);
     }
 
     /**
      * Get column of any type that extends from Number
      */
     public Number getNumber(String column) {
-        return (Number)getColumns().get(column);
+        return (Number) getColumns().get(column);
     }
 
     public String toString() {
@@ -359,7 +387,7 @@ public class Record implements Serializable {
             return false;
         if (o == this)
             return true;
-        return getColumns().equals(((Record)o).getColumns());
+        return getColumns().equals(((Record) o).getColumns());
     }
 
     public int hashCode() {
@@ -384,10 +412,10 @@ public class Record implements Serializable {
 
     /**
      * Return json string of this record.
-    */
-     public String toJson() {
+     */
+    public String toJson() {
         return JSONKit.object2Json(getColumns());
-     }
+    }
 }
 
 
