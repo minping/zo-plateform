@@ -3,6 +3,7 @@ package com.file.service.impl;
 import com.common.util.DateKit;
 import com.common.util.Result;
 import com.common.util.StrKit;
+import com.file.config.UploadProp;
 import com.file.service.FileStorageService;
 import com.file.util.FileTypeDetector;
 import com.file.util.FileUtils;
@@ -32,13 +33,13 @@ import java.util.Date;
 @Service
 public class FileStorageServiceImpl implements FileStorageService {
 
-    @Value("${zode.file.path}")
-    private String baseDir;
 
     @Autowired
     FileTypeDetector fileTypeDetector;
     @Autowired
     private FileUtils fileUtils;
+    @Autowired
+    private UploadProp uploadProp;
 
     @Override
     public Result uploadFile(MultipartFile file) {
@@ -55,11 +56,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             String originalFilename = file.getOriginalFilename();
             String fileExtension =  fileUtils.getFileExtension(originalFilename);
             String storageName =  fileUtils.generateStorageName(fileExtension);
-            Path filePath = Paths.get(baseDir, DateKit.formatDate2Str(new Date(),DateKit.YYYYMMDD), storageName);
-
-            // 确保目录存在
-            Files.createDirectories(filePath.getParent());
-
+            Path filePath = Paths.get(uploadProp.getUploadPath(), storageName);
             // 存储文件
             file.transferTo(filePath.toFile());
 
