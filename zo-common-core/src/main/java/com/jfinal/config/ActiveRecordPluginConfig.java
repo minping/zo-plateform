@@ -9,6 +9,7 @@ import com.jfinal.model._MappingKit;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.activerecord.DbKit;
 import com.jfinal.plugin.druid.DruidPlugin;
+import com.jfinal.serializer.RecordJsonSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,9 +93,9 @@ public class ActiveRecordPluginConfig {
         }
         //读取sql文件
         if (!StrKit.isBlank(packagePath)){
-            //String[] packagePathArr = packagePath.split(",");
-            //AutoSqlMappingKit.auto(arp,packagePathArr);
-            AutoSqlMappingKit.auto(arp, ScanKit.scanSearch());
+            String[] packagePathArr = packagePath.split(",");
+            AutoSqlMappingKit.auto(arp,packagePathArr);
+            //AutoSqlMappingKit.auto(arp, ScanKit.scanSearch());
         }
 
         arp.start();
@@ -102,6 +103,11 @@ public class ActiveRecordPluginConfig {
 
         return arp;
     }
+    //
+    //@Bean
+    //public RecordJsonSerializer recordJsonSerializer(){
+    //    return new RecordJsonSerializer();
+    //}
 
     private AbstractBeanDefinition transactionManagerBeanDefinition(String beanName, DataSource dataSource) {
         BeanDefinitionBuilder builder = BeanDefinitionBuilder.genericBeanDefinition(DataSourceTransactionManager.class);

@@ -6,6 +6,7 @@ import com.jfinal.plugin.activerecord.Record;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * 数据返回集
@@ -62,28 +63,43 @@ public class Result extends HashMap<String, Object> implements Serializable {
         return this;
     }
 
-    /**
-     * 执行返回结果
-     *
-     * @param data
-     * @return
-     */
     public Result setData(Object data) {
-        if (data instanceof Record){
-            Record d = (Record) data;
-            this.put("data", d.getColumns());
-        }
-        if (data instanceof ArrayList){
-            ArrayList arr = (ArrayList) data;
-            for (Object o : arr) {
-                if (o instanceof Record){
-                    Record o1 = (Record) o;
-                    o = o1.getColumns();
-                }
-            }
-        }
         this.put("data", data);
         return this;
+    }
+
+    //
+    ///**
+    // * 执行返回结果
+    // *
+    // * @param data
+    // * @return
+    // */
+    //public Result setData(Object data) {
+    //    Object realData = convertRecordData(data);
+    //    this.put("data", realData);
+    //    return this;
+    //}
+    /**
+     * JDK8 递归转换 Record / List<Record>
+     */
+    private Object convertRecordData(Object data) {
+        if (data == null) {
+            return null;
+        }
+        if (data instanceof Record) {
+            Record record = (Record) data;
+            return record.getColumns();
+        }
+        if (data instanceof Iterable) {
+            Iterable<?> iterable = (Iterable<?>) data;
+            List<Object> newList = new ArrayList<>();
+            for (Object item : iterable) {
+                newList.add(convertRecordData(item));
+            }
+            return newList;
+        }
+        return data;
     }
 
 
