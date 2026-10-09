@@ -48,6 +48,7 @@ public class FileStorageServiceImpl implements FileStorageService {
             fileUtils.validateFile(file);
             // 计算MD5
             String md5Hash = fileUtils.calculateMd5(file);
+            // 判断是否已存在同内容文件
             Record ex = Db.findById("zo_file", "md5_hash", md5Hash);
             if (ex != null) {
                 return Result.me().success().setData(ex);
