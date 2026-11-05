@@ -6,129 +6,53 @@
 
     <groupId>com.zode</groupId>
     <artifactId>zo-platform</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging> <!-- 关键：打包类型必须为 pom -->
-
+    <version>1.0.001</version>
+    <!-- 关键：打包类型必须为 pom -->
+    <packaging>pom</packaging>
 
     <properties>
-        <!-- 统一定义常用版本号 -->
         <java.version>1.8</java.version>
-        <maven.compiler.source>${java.version}</maven.compiler.source>
-        <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-
-        <!-- 定义Spring Boot版本 -->
         <spring-boot.version>2.7.14</spring-boot.version>
-        <!-- 其他依赖版本 -->
+        <zo.platform.version>1.0.001</zo.platform.version>
         <lombok.version>1.18.24</lombok.version>
         <hutool.version>5.8.40</hutool.version>
-        <jfinal.version>4.9.06</jfinal.version>
-        <log4j.version>2.25.4</log4j.version>
-        <guava.version>33.5.0-jre</guava.version>
-        <mysql.version>8.0.33</mysql.version>
-        <alibaba.version>1.2.27</alibaba.version>
-        <tika.version>1.28</tika.version>
-        <jackson.version>2.13.5</jackson.version>
     </properties>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.14</version>
-    </parent>
+    <modules>
+        <module>zo-platform-dependencies</module>
+        <module>zo-platform-core-common</module>
+        <module>zo-platform-starter-exception</module>
+        <module>zo-platform-sdk-common</module>
+        <module>zo-platform-parent</module>
+        <module>zo-platform-starter-redis</module>
+    </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.zode</groupId>
+                <artifactId>zo-platform-dependencies</artifactId>
+                <version>${zo.platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- 用到的工具类引入   -->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-core</artifactId>
-            <version>${log4j.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>${guava.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-
-        <!-- 整合JFinal activeRecord的核心引入-->
-        <dependency>
-            <groupId>com.jfinal</groupId>
-            <artifactId>activerecord</artifactId>
-            <version>${jfinal.version}</version>
-        </dependency>
-
-        <!-- 整合JFinal activeRecord的核心引入 阿里数据库连接池 -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${alibaba.version}</version>
-        </dependency>
-
-        <!-- 整合JFinal activeRecord的核心引入 Mysql驱动包 -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.version}</version>
-        </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-parsers</artifactId>
-            <version>${tika.version}</version> <!-- 请使用最新版本 -->
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tika</groupId>
-            <artifactId>tika-core</artifactId>
-            <version>${tika.version}</version> <!-- 请使用最新版本 -->
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-yaml</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.dataformat</groupId>
-            <artifactId>jackson-dataformat-xml</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
+
     </dependencies>
 
     <!-- 构建配置 -->
@@ -153,47 +77,4 @@
             </plugins>
         </pluginManagement>
     </build>
-<!--    -->
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--                <configuration>-->
-<!--                    <fork>true</fork>-->
-<!--                    <mainClass>com.jfinal.Application</mainClass>-->
-<!--                    <layout>ZIP</layout>-->
-<!--                    <includeSystemScope>true</includeSystemScope>-->
-<!--                </configuration>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <goals>-->
-<!--                            <goal>repackage</goal>-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--        <resources>-->
-<!--            <resource>-->
-<!--                <directory>src/main/java</directory>-->
-<!--                <includes>-->
-<!--                    &lt;!&ndash; 这个一定不能少 少了打包后不会把sql文件打入 &ndash;&gt;-->
-<!--                    <include>**/*.sql</include>-->
-<!--                    <include>**/*.txt</include>-->
-<!--                    <include>**/*.json</include>-->
-<!--                    <include>**/*.md</include>-->
-<!--                </includes>-->
-<!--                <filtering>false</filtering>-->
-<!--            </resource>-->
-<!--            <resource>-->
-<!--                <directory>src/main/resources</directory>-->
-<!--                <includes>-->
-<!--                    <include>**/*</include>-->
-<!--                </includes>-->
-<!--                <filtering>false</filtering>-->
-<!--            </resource>-->
-<!--        </resources>-->
-<!--    </build>-->
-
 </project>
