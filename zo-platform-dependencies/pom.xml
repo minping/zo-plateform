@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.zode</groupId>
+    <artifactId>zo-platform-dependencies</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.001</version>
+
+    <properties>
+        <zo.platform.version>1.0.001</zo.platform.version>
+        <!-- 统一定义常用版本号 -->
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- 定义Spring Boot版本 -->
+        <spring-boot.version>2.7.14</spring-boot.version>
+        <!-- 其他依赖版本 -->
+        <log4j.version>2.25.4</log4j.version>
+        <guava.version>33.5.0-jre</guava.version>
+        <redisson>3.17.6</redisson>
+
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- 用到的工具类引入   -->
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson}</version>
+            </dependency>
+
+
+            <!--  自定义包导入依赖  -->
+            <dependency>
+                <groupId>com.zode</groupId>
+                <artifactId>zo-platform-starter-exception</artifactId>
+                <version>${zo.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zode</groupId>
+                <artifactId>zo-platform-sdk-common</artifactId>
+                <version>${zo.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zode</groupId>
+                <artifactId>zo-platform-core-common</artifactId>
+                <version>${zo.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zode</groupId>
+                <artifactId>zo-platform-starter-redis</artifactId>
+                <version>${zo.platform.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>
