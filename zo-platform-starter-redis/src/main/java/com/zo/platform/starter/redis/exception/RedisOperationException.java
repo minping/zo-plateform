@@ -1,6 +1,7 @@
-package com.zo.platform.starter.exception;
+package com.zo.platform.starter.redis.exception;
 
 import com.zo.platform.sdk.common.Result;
+import com.zo.platform.starter.exception.ZoException;
 
 /**
  * @author zhoump

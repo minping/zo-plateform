@@ -1,9 +1,11 @@
 package com.zo.platform.starter.redis.configuration;
 
+import com.zo.platform.starter.console.version.Version;
 import com.zo.platform.starter.redis.Receiver;
 import com.zo.platform.starter.redis.RedisUtil;
 import com.zo.platform.starter.redis.config.PlatformCacheConfig;
 import com.zo.platform.starter.redis.config.RedisCacheProperties;
+import com.zo.platform.starter.redis.constant.RedisConstant;
 import com.zo.platform.starter.redis.lock.RedisLock;
 import com.zo.platform.starter.redis.lock.RedisLockAspect;
 import com.zo.platform.starter.redis.lock.RedisLockService;
@@ -47,6 +49,10 @@ import java.util.concurrent.ThreadLocalRandom;
 @EnableConfigurationProperties(RedisCacheProperties.class)
 public class RedisAutoConfiguration {
 
+    @Bean
+    public Version redisVersion(){
+        return new Version(RedisConstant.VERSION_NAME,RedisConstant.VERSION_CODE);
+    }
 
     @Bean
     @ConditionalOnMissingBean(name = "redisTemplate")

@@ -12,7 +12,7 @@ import java.time.Duration;
  * @purpose
  */
 @Data
-@ConfigurationProperties(prefix = "platform.redis.cache")
+@ConfigurationProperties(prefix = "zo.redis.cache")
 public class RedisCacheProperties {
     /**
      * 全局默认过期时间，默认1天

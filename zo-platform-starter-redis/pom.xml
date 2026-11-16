@@ -54,6 +54,10 @@
             <groupId>com.zode</groupId>
             <artifactId>zo-platform-starter-exception</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.zode</groupId>
+            <artifactId>zo-platform-starter-console</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
