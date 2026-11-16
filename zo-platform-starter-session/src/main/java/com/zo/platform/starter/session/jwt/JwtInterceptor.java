@@ -54,7 +54,6 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-       log.info("handler类型：{}", handler.getClass().getName());
         // 忽略jwt验证
         // 如果不是映射到方法直接通过
         if (!(handler instanceof HandlerMethod)) {
@@ -113,6 +112,7 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         if (StrKit.isBlank(token)) {
             //没有找到token信息
+            log.debug("没有找到token信息");
             throw JwtException.create(JwtCode.NO_TOKEN);
         }
         return true;

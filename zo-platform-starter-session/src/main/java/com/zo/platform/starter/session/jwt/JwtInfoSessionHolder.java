@@ -80,7 +80,6 @@ public class JwtInfoSessionHolder implements ISessionHolder<JwtInfoSessionHolder
     @Override
     public JwtInfoSessionHolder clear() {
         if (getJwt() == null) {
-            //            log.warn("jwt token must be not null,please checking");
             return this;
         }
         clearRule();

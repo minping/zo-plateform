@@ -65,29 +65,27 @@ public class JwtBuilder {
     }
 
     /**
-     * 获取token
+     * 从请求头/cookie中获取token
      * @param request
      * @return
      */
-    public static String getToken(HttpServletRequest request,String tokenKey){
-        //boolean isGet = "GET".equalsIgnoreCase(request.getMethod());
-        //Collections.list(request.getHeaderNames()).forEach(System.out::println);
+    public static String getToken(HttpServletRequest request, String tokenKey) {
+        // 1. 请求头（任何方法都先看头）
+        String token = request.getHeader(tokenKey);
+        if (StrKit.isNotBlank(token)) return token;
 
-        //if(isGet){
-        //    Cookie[] cookies = request.getCookies();
-        //    if(cookies!=null){
-        //        for (Cookie cookie : cookies){
-        //            if(StrKit.equals(tokenKey,cookie.getName())){
-        //                return cookie.getValue();
-        //            }
-        //        }
-        //    }
-        //}else{
-        //    return request.getHeader(tokenKey);
-        //}
-        return request.getHeader(tokenKey);
-        //处理单点时动态设置token问题
-        //return (String) request.getAttribute(tokenKey);
+        // 2. cookie
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (StrKit.equals(tokenKey, cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+
+        // 3. 单点动态设置的 attribute
+        return (String) request.getAttribute(tokenKey);
     }
 
 

@@ -54,6 +54,7 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String tokenKey = sessionConfig.getTokenKey();
+        // 从请求头/cookie中获取token
         String token = JwtBuilder.getToken(request,tokenKey);
         JwtBuildResult jwtBuildResult = JwtBuilder.buildToken(jwtInfoSessionHolder,request,tokenKey);
         String respToken = jwtBuildResult.getToken();
