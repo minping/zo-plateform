@@ -1,9 +1,9 @@
 package com.common.base;
 
 import com.common.configuration.SpringContextHolder;
-import com.common.log.ZoLog;
 import com.zo.platform.sdk.common.Result;
 import com.zo.platform.sdk.common.kit.StrKit;
+import com.zo.platform.starter.log.ZoLog;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.MultipartResolver;
 

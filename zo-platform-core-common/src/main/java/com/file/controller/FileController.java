@@ -3,6 +3,7 @@ package com.file.controller;
 import com.file.service.FileStorageService;
 import com.office.kit.FileKit;
 import com.zo.platform.sdk.common.Result;
+import com.zo.platform.starter.session.AuthIgnore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -25,6 +26,7 @@ import java.io.*;
 @RestController
 @RequestMapping("/file")
 @Validated
+@AuthIgnore
 public class FileController {
 
     @Autowired

@@ -102,5 +102,13 @@
             <groupId>com.zode</groupId>
             <artifactId>zo-platform-starter-exception</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.zode</groupId>
+            <artifactId>zo-platform-starter-log</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zode</groupId>
+            <artifactId>zo-platform-starter-session</artifactId>
+        </dependency>
     </dependencies>
 </project>

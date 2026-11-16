@@ -6,9 +6,13 @@ import com.zo.platform.sdk.common.kit.StrKit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.resource.PathResourceResolver;
+
+import java.io.IOException;
 
 /**
  * @author zhoump
@@ -46,7 +50,23 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         if (StrKit.isNotBlank(uploadProp.getMetaFilePath())){
-            registry.addResourceHandler("/**").addResourceLocations("file:" + uploadProp.getMetaFilePath());
+            registry.addResourceHandler("/**").addResourceLocations("file:" + uploadProp.getMetaFilePath())
+                    .resourceChain(true)
+                    .addResolver(new PathResourceResolver() {
+                        @Override
+                        protected Resource getResource(String resourcePath, Resource location) throws IOException {
+                            // 先用父类逻辑取真实文件（保留目录穿越等安全校验）
+                            Resource resource = super.getResource(resourcePath, location);
+                            if (resource != null) {
+                                return resource;
+                            }
+                            // 无扩展名 → 视为前端路由，回退 index.html 交给 vue-router
+                            if (!resourcePath.contains(".")) {
+                                return super.getResource("index.html", location);
+                            }
+                            return null;   // 真缺的 js/css/图片仍返回 404
+                        }
+                    });;
         }
     }
 
