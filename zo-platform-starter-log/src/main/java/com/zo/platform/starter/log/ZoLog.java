@@ -1,4 +1,4 @@
-package com.common.log;
+package com.zo.platform.starter.log;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
