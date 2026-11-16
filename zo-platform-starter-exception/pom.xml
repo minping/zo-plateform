@@ -28,6 +28,10 @@
         </dependency>
         <dependency>
             <groupId>com.zode</groupId>
+            <artifactId>zo-platform-starter-console</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zode</groupId>
             <artifactId>zo-platform-sdk-common</artifactId>
         </dependency>
     </dependencies>

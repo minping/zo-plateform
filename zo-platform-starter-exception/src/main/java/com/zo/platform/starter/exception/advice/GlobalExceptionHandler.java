@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ZoException.class)
     public Result handleBusinessException(ZoException e, HttpServletRequest request) {
         log.warn("业务异常 | 请求地址：{} | 错误信息：{}", request.getRequestURI(), e.getMessage());
-        return Result.me().error().setMessage(e.getMessage());
+        return Result.me().error().setState(e.getState()).setMessage(e.getMessage());
     }
 
 

@@ -46,5 +46,9 @@ public class ZoException extends RuntimeException {
         return this;
     }
 
+    public int getState(){
+       return this.result.getState();
+    }
+
 
 }
