@@ -77,6 +77,26 @@
                 <artifactId>zo-platform-starter-redis</artifactId>
                 <version>${zo.platform.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.zode</groupId>
+                <artifactId>zo-platform-starter-console</artifactId>
+                <version>${zo.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zode</groupId>
+                <artifactId>zo-platform-starter-office</artifactId>
+                <version>${zo.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zode</groupId>
+                <artifactId>zo-platform-starter-log</artifactId>
+                <version>${zo.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zode</groupId>
+                <artifactId>zo-platform-starter-session</artifactId>
+                <version>${zo.platform.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

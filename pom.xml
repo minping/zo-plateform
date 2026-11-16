@@ -27,6 +27,10 @@
         <module>zo-platform-sdk-common</module>
         <module>zo-platform-parent</module>
         <module>zo-platform-starter-redis</module>
+        <module>zo-platform-starter-console</module>
+        <module>zo-platform-starter-office</module>
+        <module>zo-platform-starter-log</module>
+        <module>zo-platform-starter-session</module>
     </modules>
 
     <dependencyManagement>

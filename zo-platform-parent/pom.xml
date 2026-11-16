@@ -50,6 +50,18 @@
             <groupId>com.zode</groupId>
             <artifactId>zo-platform-starter-redis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.zode</groupId>
+            <artifactId>zo-platform-starter-console</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zode</groupId>
+            <artifactId>zo-platform-starter-log</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zode</groupId>
+            <artifactId>zo-platform-starter-session</artifactId>
+        </dependency>
     </dependencies>
 
 
