@@ -75,6 +75,21 @@ public class Result extends HashMap<String, Object> implements Serializable {
         return this;
     }
 
+    /**
+     * 执行返回状态码
+     *
+     * @return
+     */
+    public int getState() {
+        if (this.isSuccess()){
+            return 20000;
+        }
+        if (this.containsKey("state")){
+            return (int)this.get("state");
+        }
+        return 20001;
+    }
+
     public Result success(Object data) {
         return this.setSuccess(true)
                 .setMessage("成功")
