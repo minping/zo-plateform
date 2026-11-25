@@ -11,7 +11,7 @@
 
     <artifactId>zo-platform-parent</artifactId>
     <name>zo-platform-parent</name>
-    <description>zo-platform引用聚合</description>
+    <description>zo-platform引用聚合发版</description>
     <version>1.0.001</version>
     <packaging>jar</packaging>
 
@@ -61,6 +61,10 @@
         <dependency>
             <groupId>com.zode</groupId>
             <artifactId>zo-platform-starter-session</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zode</groupId>
+            <artifactId>zo-platform-starter-mq</artifactId>
         </dependency>
     </dependencies>
 

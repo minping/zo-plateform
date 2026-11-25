@@ -31,6 +31,7 @@
         <module>zo-platform-starter-office</module>
         <module>zo-platform-starter-log</module>
         <module>zo-platform-starter-session</module>
+        <module>zo-platform-starter-mq</module>
     </modules>
 
     <dependencyManagement>
