@@ -1,5 +1,6 @@
 package com.zo.platform.starter.mq.config;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

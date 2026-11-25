@@ -23,7 +23,7 @@
         <log4j.version>2.25.4</log4j.version>
         <guava.version>33.5.0-jre</guava.version>
         <redisson>3.17.6</redisson>
-        <rocketmq>2.1.0</rocketmq>
+        <rocketmq>5.2.0</rocketmq>
 
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -57,10 +57,9 @@
             </dependency>
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
-                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <artifactId>rocketmq-client</artifactId>
                 <version>${rocketmq}</version>
             </dependency>
-
 
             <!--  平台包导入集成  -->
             <dependency>

@@ -1,6 +1,6 @@
 package com.zo.platform.starter.mq;
 
-import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
+import org.apache.rocketmq.remoting.protocol.heartbeat.MessageModel;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.*;

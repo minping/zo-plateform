@@ -10,7 +10,9 @@ import com.zo.platform.starter.mq.config.MqProperties;
 import com.zo.platform.starter.mq.constant.MqConstant;
 import com.zo.platform.starter.redis.RedisUtil;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +24,8 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @EnableConfigurationProperties(MqProperties.class)
+@ConditionalOnClass(DefaultMQProducer.class)
+@ConditionalOnProperty(prefix = "zo.rocketmq", value = "name-server", matchIfMissing = false)
 public class MqAutoConfiguration {
 
     @Bean
